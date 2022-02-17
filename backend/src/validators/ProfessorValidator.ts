@@ -1,6 +1,6 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 
-export const storeProfessoresValidator = celebrate(
+export const storeProfessorValidator = celebrate(
     {
         [Segments.BODY]: Joi.object().keys({
             nome: Joi.string().required(),
