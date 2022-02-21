@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import knex from '../database/connection';
 
 class AlunosController {
-  
+
   async index(request: Request, response: Response) {
 
     const alunos = await knex('alunos').select('alunos.*');

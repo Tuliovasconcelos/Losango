@@ -45,7 +45,7 @@ class ProfessoresController {
 
         const insertedProfessor = await knex('professores').insert(professor);
 
-        insertedProfessor ? response.json(true) : response.json(false);
+        insertedProfessor ? response.json(insertedProfessor) : response.json(false);
 
         return response;
     }

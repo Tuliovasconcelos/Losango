@@ -26,6 +26,19 @@ class MedicamentosController {
         return response
     }
 
+
+    //buscando pelo id do aluno
+    async showUnicUser(request: Request, response: Response) {
+
+        const { id_aluno } = request.query;
+
+        const selectedMedicamentos = await knex('medicamentos').where('id_aluno', Number(id_aluno)).select('medicamentos.*');
+
+        selectedMedicamentos ? response.json(selectedMedicamentos) : response.json(false);
+
+        return response;
+    }
+
     //cadastro de medicamentos
     async create(request: Request, response: Response) {
 

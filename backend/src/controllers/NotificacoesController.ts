@@ -31,13 +31,11 @@ class notificacoesController {
 
         const { id_usuario } = request.query;
 
-        const id_usuario_formatado = String(id_usuario);
-
-        const selectedNotificacoes = await knex('notificacoes').where('id_usuario', id_usuario_formatado).select('notificacoes.*');
+        const selectedNotificacoes = await knex('notificacoes').where('id_usuario', Number(id_usuario)).select('notificacoes.*');
 
         selectedNotificacoes ? response.json(selectedNotificacoes) : response.json(false);
 
-        return response
+        return response;
     }
 
 

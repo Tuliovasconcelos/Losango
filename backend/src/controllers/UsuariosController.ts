@@ -19,10 +19,10 @@ class UsuariosController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const selectedusuario = await knex('usuarios').where('id', id).first();
+    const selectedUsuario = await knex('usuarios').where('id', id).first();
 
     //verifando se houve resultado e retornando o usuario
-    selectedusuario ? response.json(selectedusuario) : response.json(false);
+    selectedUsuario ? response.json(selectedUsuario) : response.json(false);
 
   }
 
@@ -62,9 +62,9 @@ class UsuariosController {
 
     if (cadFilhoAluno) {
       //inserindo na tabela com knex
-      const insertedusuario = await knex('usuarios').insert(usuarioData);
+      const insertedUsuario = await knex('usuarios').insert(usuarioData);
       //verificando se houve resultado
-      insertedusuario ? response.json(insertedusuario) : response.json(false);
+      insertedUsuario ? response.json(insertedUsuario) : response.json(false);
     }
     else {
       return response.status(400).json(false);
@@ -79,10 +79,10 @@ class UsuariosController {
     const { id } = request.params;
 
     //deletando via knex passando id
-    const deletedusuario = await knex('usuarios').where('id', id).delete();
+    const deletedUsuario = await knex('usuarios').where('id', id).delete();
 
     //verificando se houve exclusão
-    deletedusuario ? response.json(deletedusuario) : response.json(false);
+    deletedUsuario ? response.json(deletedUsuario) : response.json(false);
   }
 
 }

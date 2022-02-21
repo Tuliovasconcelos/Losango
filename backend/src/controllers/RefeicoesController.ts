@@ -2,14 +2,14 @@
 import { Request, Response } from 'express';
 import knex from '../database/connection';
 
-class AtividadesController {
+class RefeicoesController {
 
     //mostrando todas
     async index(request: Request, response: Response) {
 
-        const atividades = await knex('atividades').select('atividades.*');
+        const refeicoes = await knex('refeicoes').select('refeicoes.*');
 
-        atividades ? response.json(atividades) : response.json(false);
+        refeicoes ? response.json(refeicoes) : response.json(false);
 
         return response
     }
@@ -19,14 +19,14 @@ class AtividadesController {
 
         const { id } = request.params;
 
-        const selectedAtividade = await knex('atividades').where('id', id).first();
+        const selectedRefeicao = await knex('refeicoes').where('id', id).first();
 
-        selectedAtividade ? response.json(selectedAtividade) : response.json(false);
+        selectedRefeicao ? response.json(selectedRefeicao) : response.json(false);
 
         return response
     }
 
-    //cadastro de atividades
+    //cadastro de refeicoes
     async create(request: Request, response: Response) {
 
         //pegando todos os dados da rota
@@ -37,35 +37,35 @@ class AtividadesController {
 
 
         //montando objeto com os dados
-        const atividadeData = {
+        const refeicaoData = {
             descricao,
             status
         };
 
         //inserindo na tabela com knex
-        const insertedAtividade = await knex('atividades').insert(atividadeData);
+        const insertedRefeicao = await knex('refeicoes').insert(refeicaoData);
 
         //verificando se houve resultado
-        insertedAtividade ? response.json(insertedAtividade) : response.json(false);
+        insertedRefeicao ? response.json(insertedRefeicao) : response.json(false);
 
         return response
 
     }
 
-    //exclusão de atividades
+    //exclusão de refeicoes
     async delete(request: Request, response: Response) {
 
         //pegando id da rota
         const { id } = request.params;
 
         //deletando via knex passando id
-        const deletedAtividade = await knex('atividades').where('id', id).delete();
+        const deletedRefeicao = await knex('refeicoes').where('id', id).delete();
 
         //verificando se houve exclusão
-        deletedAtividade ? response.json(true) : response.json(false);
+        deletedRefeicao ? response.json(true) : response.json(false);
 
         return response
     }
 }
 
-export default AtividadesController
+export default RefeicoesController

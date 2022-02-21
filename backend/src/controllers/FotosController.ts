@@ -26,6 +26,19 @@ class FotosController {
         return response
     }
 
+    //buscando pelo id da galeria
+    async showUnicFotos(request: Request, response: Response) {
+
+        const { id_galeria } = request.query;
+
+        const selectedFotos = await knex('fotos').where('id_galeria', Number(id_galeria)).select('fotos.*');
+
+        selectedFotos ? response.json(selectedFotos) : response.json(false);
+
+        return response;
+    }
+
+
     //cadastro de Fotos
     async create(request: Request, response: Response) {
 

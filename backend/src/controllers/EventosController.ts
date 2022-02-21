@@ -26,6 +26,18 @@ class EventosController {
         return response
     }
 
+    //buscando pelo id do calendario
+    async showUnicUser(request: Request, response: Response) {
+
+        const { id_calendario } = request.query;
+
+        const selectedEventos = await knex('eventos').where('id_calendario', Number(id_calendario)).select('eventos.*');
+
+        selectedEventos ? response.json(selectedEventos) : response.json(false);
+
+        return response;
+    }
+
     //cadastro de Eventos
     async create(request: Request, response: Response) {
 

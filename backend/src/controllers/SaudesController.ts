@@ -2,14 +2,14 @@
 import { Request, Response } from 'express';
 import knex from '../database/connection';
 
-class AtividadesController {
+class SaudesController {
 
     //mostrando todas
     async index(request: Request, response: Response) {
 
-        const atividades = await knex('atividades').select('atividades.*');
+        const saudes = await knex('saude').select('saude.*');
 
-        atividades ? response.json(atividades) : response.json(false);
+        saudes ? response.json(saudes) : response.json(false);
 
         return response
     }
@@ -19,14 +19,14 @@ class AtividadesController {
 
         const { id } = request.params;
 
-        const selectedAtividade = await knex('atividades').where('id', id).first();
+        const selectedSaude = await knex('saude').where('id', id).first();
 
-        selectedAtividade ? response.json(selectedAtividade) : response.json(false);
+        selectedSaude ? response.json(selectedSaude) : response.json(false);
 
         return response
     }
 
-    //cadastro de atividades
+    //cadastro de saudes
     async create(request: Request, response: Response) {
 
         //pegando todos os dados da rota
@@ -37,35 +37,35 @@ class AtividadesController {
 
 
         //montando objeto com os dados
-        const atividadeData = {
+        const saudeData = {
             descricao,
             status
         };
 
         //inserindo na tabela com knex
-        const insertedAtividade = await knex('atividades').insert(atividadeData);
+        const insertedSaude = await knex('saude').insert(saudeData);
 
         //verificando se houve resultado
-        insertedAtividade ? response.json(insertedAtividade) : response.json(false);
+        insertedSaude ? response.json(insertedSaude) : response.json(false);
 
         return response
 
     }
 
-    //exclusão de atividades
+    //exclusão de saudes
     async delete(request: Request, response: Response) {
 
         //pegando id da rota
         const { id } = request.params;
 
         //deletando via knex passando id
-        const deletedAtividade = await knex('atividades').where('id', id).delete();
+        const deletedSaude = await knex('saude').where('id', id).delete();
 
         //verificando se houve exclusão
-        deletedAtividade ? response.json(true) : response.json(false);
+        deletedSaude ? response.json(true) : response.json(false);
 
         return response
     }
 }
 
-export default AtividadesController
+export default SaudesController
