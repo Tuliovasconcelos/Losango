@@ -1,11 +1,22 @@
-import React, {createContext, useState, useEffect, useContext} from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as auth from '../services/auth';
-import api from '../services/api';
+
+interface userData {
+  usuario: string;
+  senha: string;
+}
 
 interface User {
-  name: string;
+  id: number;
+  usuario: string;
+  cpf: string;
   email: string;
+  telefone: string;
+  senha: string;
+  cpf_filho: string;
+  data_cadastro: Date,
+  status: boolean
 }
 
 interface AuthContextData {
@@ -18,18 +29,16 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-const AuthProvider: React.FC = ({children}) => {
+const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadStorageData() {
       const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
-      const storagedToken = await AsyncStorage.getItem('@RNAuth:token');
 
-      if (storagedUser && storagedToken) {
+      if (storagedUser) {
         setUser(JSON.parse(storagedUser));
-        api.defaults.headers.Authorization = `Baerer ${storagedToken}`;
       }
 
       setLoading(false);
@@ -39,13 +48,16 @@ const AuthProvider: React.FC = ({children}) => {
   });
 
   async function signIn() {
-    const response = await auth.signIn();
-    setUser(response.user);
 
-    api.defaults.headers.Authorization = `Baerer ${response.token}`;
+    const userData: userData = {
+      usuario: "tulio",
+      senha: "1234"
+    }
+    const responseAuth = await auth.signIn(userData);
 
-    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
-    await AsyncStorage.setItem('@RNAuth:token', response.token);
+    setUser(responseAuth.user);
+
+    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(responseAuth.user));
   }
 
   async function signOut() {
@@ -55,7 +67,7 @@ const AuthProvider: React.FC = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{signed: !!user, user, loading, signIn, signOut}}>
+      value={{ signed: !!user, user, loading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
@@ -71,4 +83,4 @@ function useAuth() {
   return context;
 }
 
-export {AuthProvider, useAuth};
+export { AuthProvider, useAuth };
