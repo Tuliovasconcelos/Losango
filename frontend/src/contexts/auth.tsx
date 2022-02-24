@@ -2,11 +2,6 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as auth from '../services/auth';
 
-interface userData {
-  usuario: string;
-  senha: string;
-}
-
 interface User {
   id: number;
   usuario: string;
@@ -49,15 +44,21 @@ const AuthProvider: React.FC = ({ children }) => {
 
   async function signIn() {
 
-    const userData: userData = {
-      usuario: "tulio",
-      senha: "1234"
+    const userData = {
+      usuario: 'tulio',
+      senha: '1234'
     }
-    const responseAuth = await auth.signIn(userData);
 
-    setUser(responseAuth.user);
+    try {
+      const response = await auth.signIn(userData);
 
-    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(responseAuth.user));
+      setUser(response.user);
+
+      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async function signOut() {
