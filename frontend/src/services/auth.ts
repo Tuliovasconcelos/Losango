@@ -1,10 +1,5 @@
 import api from "./api";
 
-interface userData {
-  usuario: string;
-  senha: string;
-}
-
 interface Response {
   user: {
     id: number;
@@ -19,8 +14,17 @@ interface Response {
   };
 }
 
-export async function signIn(userData: userData): Promise<Response> {
+interface userData {
+  usuario: string,
+  senha: string
+}
 
-  return await api.post('/usuarios/authLogin', userData);
+async function signIn(userData: userData): Promise<Response> {
+
+  const authData = await api.post('', userData);
+
+  return authData.data;
 
 }
+
+export { signIn }
