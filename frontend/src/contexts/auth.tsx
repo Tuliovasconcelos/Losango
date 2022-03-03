@@ -30,7 +30,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadStorageData() {
-      const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
+      const storagedUser = await AsyncStorage.getItem('@Losango:user');
 
       if (storagedUser) {
         setUser(JSON.parse(storagedUser));
@@ -54,7 +54,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
       setUser(response.user);
 
-      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+      await AsyncStorage.setItem('@Losango:user', JSON.stringify(response.user));
 
     } catch (error) {
       console.error(error)

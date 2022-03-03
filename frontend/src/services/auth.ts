@@ -21,7 +21,7 @@ interface userData {
 
 async function signIn(userData: userData): Promise<Response> {
 
-  const authData = await api.post('', userData);
+  const authData = await api.post('/usuarios/authLogin', userData);
 
   return authData.data;
 
