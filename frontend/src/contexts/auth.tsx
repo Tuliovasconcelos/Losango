@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as auth from '../services/auth';
+import { showMessage, hideMessage } from "react-native-flash-message";
+import { Alert } from 'react-native';
+
 
 interface User {
   id: number;
@@ -14,13 +17,20 @@ interface User {
   status: boolean
 }
 
+interface userData {
+  usuario: string,
+  senha: string
+}
+
 interface AuthContextData {
   signed: boolean;
   user: User | null;
   loading: boolean;
-  signIn(): Promise<void>;
+  signIn(userData: userData): Promise<void>;
   signOut(): void;
 }
+
+
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -30,7 +40,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadStorageData() {
-      const storagedUser = await AsyncStorage.getItem('@Losango:user');
+      const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
 
       if (storagedUser) {
         setUser(JSON.parse(storagedUser));
@@ -42,23 +52,24 @@ const AuthProvider: React.FC = ({ children }) => {
     loadStorageData();
   });
 
-  async function signIn() {
+  async function signIn(userData: userData) {
 
-    const userData = {
-      usuario: 'tulio',
-      senha: '1234'
-    }
+    const response = await auth.signIn(userData);
 
-    try {
-      const response = await auth.signIn(userData);
+    response.id ?
+      setUser({
+        id: response.id,
+        usuario: response.usuario,
+        cpf: response.cpf,
+        email: response.email,
+        telefone: response.telefone,
+        senha: response.senha,
+        cpf_filho: response.cpf_filho,
+        data_cadastro: response.data_cadastro,
+        status: response.status,
+      }) : Alert.alert(JSON.stringify(response))
 
-      setUser(response.user);
-
-      await AsyncStorage.setItem('@Losango:user', JSON.stringify(response.user));
-
-    } catch (error) {
-      console.error(error)
-    }
+    await AsyncStorage.setItem('@losango:User', JSON.stringify(response));
   }
 
   async function signOut() {

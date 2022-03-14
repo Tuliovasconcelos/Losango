@@ -11,7 +11,7 @@
     "knex:rollback": "knex migrate:rollback"
   },
   "keywords": [],
-  "author": "Daniel Obara (https://www.linkedin.com/in/danielobara/)",
+  "author": "Tulio Vasconcelos",
   "license": "ISC",
   "dependencies": {
     "celebrate": "^12.1.1",

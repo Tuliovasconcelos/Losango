@@ -1,7 +1,6 @@
 import api from "./api";
 
 interface Response {
-  user: {
     id: number;
     usuario: string;
     cpf: string;
@@ -11,7 +10,6 @@ interface Response {
     cpf_filho: string;
     data_cadastro: Date,
     status: boolean
-  };
 }
 
 interface userData {
@@ -19,12 +17,11 @@ interface userData {
   senha: string
 }
 
-async function signIn(userData: userData): Promise<Response> {
+async function signIn(userData: userData) {
 
-  const authData = await api.post('/usuarios/authLogin', userData);
+  const { data } = await api.post<Response>('/usuarios/authLogin', userData)
 
-  return authData.data;
-
+  return data;
 }
 
 export { signIn }

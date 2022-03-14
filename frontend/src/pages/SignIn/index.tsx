@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Button, StyleSheet} from 'react-native';
-import {useAuth} from '../../contexts/auth';
+import { View, Button, StyleSheet } from 'react-native';
+import { useAuth } from '../../contexts/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,10 +10,14 @@ const styles = StyleSheet.create({
 });
 
 const SignIn: React.FC = () => {
-  const {signIn} = useAuth();
+  const { signIn } = useAuth();
 
   function handleSign() {
-    signIn();
+    const userData = {
+      usuario: 'tulio',
+      senha: '1234'
+    }
+    signIn(userData);
   }
 
   return (

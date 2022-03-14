@@ -19,18 +19,18 @@ class AuthController {
 
             //verifica usuário 
             if (!String(usuarioValido)) {
-                response.status(400).send({ error: 'Nome de usuário e senha incorretos' })
+                response.send('Nome de usuário ou senha incorretos')
             } else {
                 //verifica senha
                 if (usuarioValido[0].senha != criptografar(String(dadosUsuario.senha))) {
-                    response.status(400).send({ error: 'Senha incorreta' })
+                    response.send('Nome de usuário ou senha incorretos')
                 } else {
-                    response.json(await knex('usuarios').where('usuario', String(dadosUsuario.usuario)))
+                    response.json(await knex('usuarios').where('usuario', String(dadosUsuario.usuario)).first())
                 }
             }
 
             return response;
-        } catch (error) {
+        } catch (error: any) {
             return console.error(error);
         }
     }
