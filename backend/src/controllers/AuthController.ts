@@ -19,11 +19,11 @@ class AuthController {
 
             //verifica usuário 
             if (!String(usuarioValido)) {
-                response.send('Nome de usuário ou senha incorretos')
+                response.send('Nome de usuário ou senha incorretos!')
             } else {
                 //verifica senha
                 if (usuarioValido[0].senha != criptografar(String(dadosUsuario.senha))) {
-                    response.send('Nome de usuário ou senha incorretos')
+                    response.send('Nome de usuário ou senha incorretos!')
                 } else {
                     response.json(await knex('usuarios').where('usuario', String(dadosUsuario.usuario)).first())
                 }
